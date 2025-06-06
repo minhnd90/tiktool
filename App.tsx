@@ -1,38 +1,20 @@
-import { isOverlayPermissionGranted } from '@vokhuyet/react-native-draw-overlay';
-import React, { useEffect, useState } from 'react';
-import { AppState, SafeAreaView, StyleSheet, View } from 'react-native';
+import React from 'react';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import TikTokButton from './components/TikTokButton';
-import { checkAndRequestOverlayPermission } from './utils/checkAndRequestOverlayPermission';
+import useOverlayPermission from './hooks/useOverlayPermission';
 
 function App(): React.JSX.Element {
-  const [isOverlayGranted, setIsOverlayGranted] = useState(false);
-
-  useEffect(() => {
-    checkAndRequestOverlayPermission(setIsOverlayGranted);
-
-    const subscription = AppState.addEventListener('change', async nextAppState => {
-      if (nextAppState === 'active') {
-        setIsOverlayGranted(await isOverlayPermissionGranted());
-      }
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+  const { isGranted, requestPermission, error } = useOverlayPermission();
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        {!isOverlayGranted && (
-          <TikTokButton
-            id="request-overlay"
-            text="Request Permissions"
-            style={styles.buttonMargin}
-            action={() => checkAndRequestOverlayPermission(setIsOverlayGranted)}
-          />
-        )}
-      </View>
+      {!isGranted && (
+        <View>
+          <TikTokButton id="request-overlay" text="Request Overlay Permission"
+            style={styles.buttonMargin} action={requestPermission} />
+          {error && <Text style={styles.errorText}>{error}</Text>}
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -51,6 +33,10 @@ const styles = StyleSheet.create({
   },
   buttonMargin: {
     marginBottom: 20,
+  },
+  errorText: {
+    color: '#d32f2f',
+    fontSize: 16,
   },
 });
 
