@@ -1,31 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AppState, SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import { isOverlayPermissionGranted, requestOverlayPermission } from '@vokhuyet/react-native-draw-overlay';
+import { isOverlayPermissionGranted } from '@vokhuyet/react-native-draw-overlay';
+import React, { useEffect, useState } from 'react';
+import { AppState, SafeAreaView, StyleSheet, View } from 'react-native';
 import TikTokButton from './components/TikTokButton';
-
-const checkAndRequestOverlayPermission = async (setIsOverlayGranted: (v: boolean) => void) => {
-  const granted = await isOverlayPermissionGranted();
-  setIsOverlayGranted(granted);
-  if (!granted) {
-    await requestOverlayPermission();
-    setIsOverlayGranted(await isOverlayPermissionGranted());
-  }
-};
+import { checkAndRequestOverlayPermission } from './utils/checkAndRequestOverlayPermission';
 
 function App(): React.JSX.Element {
   const [isOverlayGranted, setIsOverlayGranted] = useState(false);
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   useEffect(() => {
     checkAndRequestOverlayPermission(setIsOverlayGranted);
 
     const subscription = AppState.addEventListener('change', async nextAppState => {
-      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+      if (nextAppState === 'active') {
         setIsOverlayGranted(await isOverlayPermissionGranted());
       }
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
     });
 
     return () => {
@@ -36,7 +24,6 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.container}>
       <View>
-        <Text style={styles.text}>{appStateVisible}</Text>
         {!isOverlayGranted && (
           <TikTokButton
             id="request-overlay"
