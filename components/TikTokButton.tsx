@@ -1,28 +1,21 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, Linking, Alert } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const TikTokButton = () => {
-  const openTikTok = async () => {
-    const tiktokAppUrl = 'tiktok://';
-    const tiktokWebUrl = 'https://www.tiktok.com';
-
-    try {
-      const canOpen = await Linking.canOpenURL(tiktokAppUrl);
-
-      if (canOpen) {
-        await Linking.openURL(tiktokAppUrl);
-      } else {
-        await Linking.openURL(tiktokWebUrl);
-      }
-    } catch (error) {
-      console.error('Error opening TikTok:', error);
-      Alert.alert('Error', 'Unable to open TikTok');
-    }
-  };
+const TikTokButton = ({
+  id,
+  text,
+  style,
+  action,
+}: {
+  id?: string;
+  text: string;
+  style?: object;
+  action: () => Promise<void>;
+}) => {
 
   return (
-    <TouchableOpacity style={styles.tiktokButton} onPress={openTikTok}>
-      <Text style={styles.tiktokText}>Bắt đầu</Text>
+    <TouchableOpacity id={id} style={[styles.tiktokButton, style]} onPress={action}>
+      <Text style={styles.tiktokText}>{text}</Text>
     </TouchableOpacity>
   );
 };
