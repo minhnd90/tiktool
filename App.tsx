@@ -1,18 +1,27 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import TikTokButton from './components/TikTokButton';
+import useAccessibilityService from './hooks/useAccessibilityService';
 import useOverlayPermission from './hooks/useOverlayPermission';
 
 function App(): React.JSX.Element {
-  const { isGranted, requestPermission, error } = useOverlayPermission();
+  const { isOverlayGranted, requestOverlayPermission, error } = useOverlayPermission();
+  const { isServiceEnabled, openSettings: openAccessibilitySettings, error: accessibilityError } = useAccessibilityService();
 
   return (
     <SafeAreaView style={styles.container}>
-      {!isGranted && (
+      {!isOverlayGranted && (
         <View>
-          <TikTokButton id="request-overlay" text="Request Overlay Permission"
-            style={styles.buttonMargin} action={requestPermission} />
+          <TikTokButton id="request-overlay" text="Cấp quyền hiển thị trên ứng dụng khác"
+            style={styles.buttonMargin} action={requestOverlayPermission} />
           {error && <Text style={styles.errorText}>{error}</Text>}
+        </View>
+      )}
+      {!isServiceEnabled && (
+        <View>
+          <TikTokButton id="open-accessibility" text="Mở cài đặt Hỗ trợ tiếp cận"
+            style={styles.buttonMargin} action={openAccessibilitySettings} />
+          {accessibilityError && <Text style={styles.errorText}>{accessibilityError}</Text>}
         </View>
       )}
     </SafeAreaView>

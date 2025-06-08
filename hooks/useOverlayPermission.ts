@@ -1,34 +1,25 @@
-import {
-  isOverlayPermissionGranted,
-  requestOverlayPermission,
-} from '@vokhuyet/react-native-draw-overlay';
-import {useCallback, useEffect, useState} from 'react';
+import {isOverlayPermissionGranted, requestOverlayPermission} from '@vokhuyet/react-native-draw-overlay';
+import {useEffect, useState} from 'react';
 import {AppState, AppStateStatus} from 'react-native';
 
 export default function useOverlayPermission() {
-  const [isGranted, setIsGranted] = useState(false);
+  const [isOverlayGranted, setIsOverlayGranted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const requestPermission = useCallback(async () => {
-    try {
-      setError(null);
-      !isGranted && (await requestOverlayPermission());
-      setIsGranted(await isOverlayPermissionGranted());
-    } catch (e) {
-      setError('Failed to request overlay permission.');
-    }
-  }, [isGranted]);
-
   useEffect(() => {
-    requestPermission();
-    const subscription = AppState.addEventListener(
-      'change',
-      async (nextAppState: AppStateStatus) => {
-        nextAppState === 'active' && (await requestPermission());
-      },
-    );
+    (async () => {
+      try {
+        setError(null);
+        setIsOverlayGranted(await isOverlayPermissionGranted());
+      } catch (e) {
+        setError('Failed to request overlay permission.');
+      }
+    })();
+    const subscription = AppState.addEventListener('change', async (nextAppState: AppStateStatus) => {
+      !isOverlayGranted && nextAppState === 'active' && (await requestOverlayPermission());
+    });
     return () => subscription.remove();
-  }, [requestPermission]);
+  }, [isOverlayGranted]);
 
-  return {isGranted, requestPermission, error};
+  return {isOverlayGranted, requestOverlayPermission, error};
 }

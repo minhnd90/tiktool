@@ -10,7 +10,7 @@ const TikTokButton = ({
   id?: string;
   text: string;
   style?: object;
-  action: () => Promise<void>;
+  action: () => void;
 }) => {
 
   return (
