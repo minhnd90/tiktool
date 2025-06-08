@@ -1,15 +1,30 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import LoginScreen from './components/LoginScreen';
 import TikTokButton from './components/TikTokButton';
 import useAccessibilityService from './hooks/useAccessibilityService';
 import useOverlayPermission from './hooks/useOverlayPermission';
 
 function App(): React.JSX.Element {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { isOverlayGranted, requestOverlayPermission, overlayError } = useOverlayPermission();
   const { isServiceEnabled, openAccessibilitySettings, accessibilityError } = useAccessibilityService();
 
+  useEffect(() => {
+    // Ẩn status bar khi app khởi động
+    StatusBar.setHidden(true, 'slide');
+  }, []);
+
+  const handleLogin = (_username: string, _password: string) => {
+    // TODO: Xác thực tài khoản ở đây (hiện tại chỉ demo, luôn thành công)
+    setIsLoggedIn(true);
+  };
+
+  // Hiển thị màn hình đăng nhập chỉ khi đã có đủ cả 2 quyền
+  const shouldShowLogin = isOverlayGranted && isServiceEnabled && !isLoggedIn;
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {!isOverlayGranted && (
         <View>
           <TikTokButton id="request-overlay" text="Cấp quyền hiển thị trên ứng dụng khác"
@@ -17,14 +32,15 @@ function App(): React.JSX.Element {
           {overlayError && <Text style={styles.errorText}>{overlayError}</Text>}
         </View>
       )}
-      {!isServiceEnabled && (
+      {isOverlayGranted && !isServiceEnabled && (
         <View>
           <TikTokButton id="open-accessibility" text="Mở cài đặt Hỗ trợ tiếp cận"
             style={styles.buttonMargin} action={openAccessibilitySettings} />
           {accessibilityError && <Text style={styles.errorText}>{accessibilityError}</Text>}
         </View>
       )}
-    </SafeAreaView>
+      {shouldShowLogin ? <LoginScreen onLogin={handleLogin} /> : <View><Text>Chào mừng đến với TikTool!</Text></View>}
+    </View>
   );
 }
 
