@@ -5,8 +5,8 @@ import useAccessibilityService from './hooks/useAccessibilityService';
 import useOverlayPermission from './hooks/useOverlayPermission';
 
 function App(): React.JSX.Element {
-  const { isOverlayGranted, requestOverlayPermission, error } = useOverlayPermission();
-  const { isServiceEnabled, openSettings: openAccessibilitySettings, error: accessibilityError } = useAccessibilityService();
+  const { isOverlayGranted, requestOverlayPermission, overlayError } = useOverlayPermission();
+  const { isServiceEnabled, openAccessibilitySettings, accessibilityError } = useAccessibilityService();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -14,7 +14,7 @@ function App(): React.JSX.Element {
         <View>
           <TikTokButton id="request-overlay" text="Cấp quyền hiển thị trên ứng dụng khác"
             style={styles.buttonMargin} action={requestOverlayPermission} />
-          {error && <Text style={styles.errorText}>{error}</Text>}
+          {overlayError && <Text style={styles.errorText}>{overlayError}</Text>}
         </View>
       )}
       {!isServiceEnabled && (

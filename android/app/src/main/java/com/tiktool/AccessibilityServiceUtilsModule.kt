@@ -27,9 +27,9 @@ class AccessibilityServiceUtilsModule(reactContext: ReactApplicationContext) : R
                 context.contentResolver,
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
             )
-            val expected = context.packageName + "/.TikToolAccessibilityService"
-            val isEnabled = !TextUtils.isEmpty(enabledServices) &&
-                enabledServices.split(":").contains(expected)
+            val flatName1 = context.packageName + SERVICE_CLASS_NAME
+            val flatName2 = context.packageName + "/" + flatName1
+            val isEnabled = !TextUtils.isEmpty(enabledServices) && enabledServices.split(":").any { it == flatName1 || it == flatName2 }
             promise.resolve(isEnabled)
         } catch (e: Exception) {
             promise.reject("ERR_CHECK_SERVICE", e)
@@ -44,5 +44,9 @@ class AccessibilityServiceUtilsModule(reactContext: ReactApplicationContext) : R
         val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         reactApplicationContext.startActivity(intent)
+    }
+
+    private companion object {
+        const val SERVICE_CLASS_NAME = ".TikToolAccessibilityService"
     }
 }
