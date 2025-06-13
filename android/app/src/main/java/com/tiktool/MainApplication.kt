@@ -21,6 +21,8 @@ class MainApplication : Application(), ReactApplication {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())
               add(AccessibilityServiceUtilsPackage()) // Đăng ký package kiểm tra Accessibility Service
+              add(AppInstalledUtilsPackage()) // Đăng ký package kiểm tra app đã cài đặt
+              add(OpenTiktokPackage()) // Đăng ký package mở TikTok native
             }
 
         override fun getJSMainModuleName(): String = "index"
