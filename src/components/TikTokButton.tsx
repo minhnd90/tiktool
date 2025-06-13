@@ -1,5 +1,6 @@
+import { Button } from '@rneui/themed';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 const TikTokButton = ({
   id,
@@ -14,9 +15,9 @@ const TikTokButton = ({
 }) => {
 
   return (
-    <TouchableOpacity id={id} style={[styles.tiktokButton, style]} onPress={action}>
+    <Button id={id} style={[styles.tiktokButton, style]} onPress={action}>
       <Text style={styles.tiktokText}>{text}</Text>
-    </TouchableOpacity>
+    </Button>
   );
 };
 
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 5,
+    marginBottom: 20,
     shadowColor: '#FF0050',
     shadowOffset: {
       width: 0,
