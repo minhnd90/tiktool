@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { TikTokButton } from '@components';
+import { text, tiktokVariants } from '@constants';
+import { tiktokApps } from '@utils';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import { text, tiktokVariants } from '@constants/index';
-import { isAppInstalled, openTiktokByPackage } from '@utils/tiktokApps';
-import TikTokButton from './TikTokButton';
+
+const { isAppInstalled, openTiktokByPackage } = tiktokApps;
 
 interface TikTokApp {
   name: string;

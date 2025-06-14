@@ -1,7 +1,9 @@
-import text from '@constants/text';
-import {checkOverlayPermission, requestOverlayPermission} from '@utils/overlayPermission';
-import {useCallback, useEffect, useState} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import { text } from '@constants';
+import { overlayPermission } from '@utils';
+import { useCallback, useEffect, useState } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
+
+const {checkOverlayPermission, requestOverlayPermission} = overlayPermission;
 
 export default function useOverlayPermission() {
   const [isOverlayGranted, setIsOverlayGranted] = useState(false);

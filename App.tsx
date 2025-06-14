@@ -1,21 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { LoginScreen, SelectTiktokVariant, TikTokButton } from '@components';
+import { text } from '@constants';
+import { useAccessibilityService, useOverlayPermission } from '@hooks';
+import React, { useState } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
-import LoginScreen from '@components/LoginScreen';
-import SelectTiktokVariant from '@components/SelectTiktokVariant';
-import TikTokButton from '@components/TikTokButton';
-import text from '@constants/text';
-import useAccessibilityService from '@hooks/useAccessibilityService';
-import useOverlayPermission from '@hooks/useOverlayPermission';
 
 function App(): React.JSX.Element {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const { isOverlayGranted, requestOverlayPermission, overlayError } = useOverlayPermission();
   const { isServiceEnabled, openAccessibilitySettings, accessibilityError } = useAccessibilityService();
-
-  useEffect(() => {
-    // Ẩn status bar khi app khởi động
-    StatusBar.setHidden(true, 'slide');
-  }, []);
 
   const handleLogin = (_username: string, _password: string) => {
     // TODO: Xác thực tài khoản ở đây (hiện tại chỉ demo, luôn thành công)
@@ -27,7 +19,7 @@ function App(): React.JSX.Element {
 
   return (
     <View style={styles.container}>
-
+      <StatusBar hidden={true} />
       {/* Nút yêu cầu quyền hiển thị trên ứng dụng khác */}
       {!isOverlayGranted &&
         <TikTokButton id="request-overlay" text={text.RequestOverlay} action={requestOverlayPermission} />
