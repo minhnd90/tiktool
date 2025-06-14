@@ -1,6 +1,7 @@
-import { isOverlayPermissionGranted, requestOverlayPermission } from '@vokhuyet/react-native-draw-overlay';
-import { useCallback, useEffect, useState } from 'react';
-import { AppState, AppStateStatus } from 'react-native';
+import text from '@constants/text';
+import {checkOverlayPermission, requestOverlayPermission} from '@utils/overlayPermission';
+import {useCallback, useEffect, useState} from 'react';
+import {AppState, AppStateStatus} from 'react-native';
 
 export default function useOverlayPermission() {
   const [isOverlayGranted, setIsOverlayGranted] = useState(false);
@@ -10,9 +11,9 @@ export default function useOverlayPermission() {
     try {
       setOverlayError(null);
       !isOverlayGranted && (await requestOverlayPermission());
-      setIsOverlayGranted(await isOverlayPermissionGranted());
+      setIsOverlayGranted(await checkOverlayPermission());
     } catch (e) {
-      setOverlayError('Failed to request overlay permission.');
+      setOverlayError(text.RequestOverlayError);
     }
   }, [isOverlayGranted]);
 

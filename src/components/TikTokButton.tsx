@@ -1,6 +1,6 @@
-import { Button } from '@rneui/themed';
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
+import { TouchableRipple } from 'react-native-paper';
 
 const TikTokButton = ({
   id,
@@ -15,9 +15,9 @@ const TikTokButton = ({
 }) => {
 
   return (
-    <Button id={id} style={[styles.tiktokButton, style]} onPress={action}>
+    <TouchableRipple id={id} style={[styles.tiktokButton, style]} onPress={action}>
       <Text style={styles.tiktokText}>{text}</Text>
-    </Button>
+    </TouchableRipple>
   );
 };
 

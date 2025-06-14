@@ -1,5 +1,6 @@
 const text = {
   RequestOverlay: 'Cấp quyền hiển thị trên ứng dụng khác',
+  RequestOverlayError: 'Không thể xin quyền hiển thị trên ứng dụng khác.',
   OpenAccessibility: 'Mở cài đặt Hỗ trợ tiếp cận',
   LoginSuccess: 'Bạn đã đăng nhập thành công!',
   StartTask: 'Làm nhiệm vụ',
