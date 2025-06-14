@@ -3,14 +3,14 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "paths": {
-      "@components": ["components/index"],
-      "@assets": ["assets/index"],
-      "@screens": ["screens/index"],
-      "@utils": ["utils/index"],
-      "@hooks": ["hooks/index"],
-      "@navigation": ["navigation/index"],
-      "@constants": ["constants/index"],
-      "@services": ["services/index"]
+      "@components": ["components/_index"],
+      "@assets": ["assets/_index"],
+      "@screens": ["screens/_index"],
+      "@utils": ["utils/_index"],
+      "@hooks": ["hooks/_index"],
+      "@navigation": ["navigation/_index"],
+      "@constants": ["constants/_index"],
+      "@services": ["services/_index"]
     },
     "resolveJsonModule": true
   }

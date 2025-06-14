@@ -22,3 +22,4 @@ Coding standards, domain knowledge, and preferences that AI should follow.
 - The app should be customizable to some extent (e.g., allowing users to set their own automation preferences).
 - Text in the app and code commenting should be in Vietnamese except for technical terms like variables, functions, classes, and methods, etc.
 - Static text should be stored in a separate file for easy translation and localization.
+- No needs to check platform compatibility, as the app is only for Android.

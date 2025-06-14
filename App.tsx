@@ -1,13 +1,16 @@
 import { LoginScreen, SelectTiktokVariant, TikTokButton } from '@components';
 import { text } from '@constants';
-import { useAccessibilityService, useOverlayPermission } from '@hooks';
+import { useA11yService, useOverlayPermission } from '@hooks';
 import React, { useState } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
 
 function App(): React.JSX.Element {
+  /* State quản lý trạng thái đăng nhập
+   * Mặc định là đã đăng nhập để hiển thị màn hình chính
+   */
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const { isOverlayGranted, requestOverlayPermission, overlayError } = useOverlayPermission();
-  const { isServiceEnabled, openAccessibilitySettings, accessibilityError } = useAccessibilityService();
+  const { isA11yEnabled, openA11ySettings, a11yError } = useA11yService();
 
   const handleLogin = (_username: string, _password: string) => {
     // TODO: Xác thực tài khoản ở đây (hiện tại chỉ demo, luôn thành công)
@@ -15,7 +18,7 @@ function App(): React.JSX.Element {
   };
 
   // Hiển thị màn hình đăng nhập chỉ khi đã có đủ cả 2 quyền
-  const shouldShowLogin = isOverlayGranted && isServiceEnabled && !isLoggedIn;
+  const shouldShowLogin = isOverlayGranted && isA11yEnabled && !isLoggedIn;
 
   return (
     <View style={styles.container}>
@@ -26,15 +29,15 @@ function App(): React.JSX.Element {
       }
 
       {/* Nút mở cài đặt Hỗ trợ tiếp cận */}
-      {!isServiceEnabled &&
-        <TikTokButton id="open-accessibility" text={text.OpenAccessibility} action={openAccessibilitySettings} />}
+      {!isA11yEnabled &&
+        <TikTokButton id="open-a11y" text={text.OpenA11y} action={openA11ySettings} />}
 
       {/* Hiển thị lỗi nếu có */}
       {overlayError &&
         <Text style={styles.errorText}>{overlayError}</Text>
       }
-      {accessibilityError &&
-        <Text style={styles.errorText}>{accessibilityError}</Text>
+      {a11yError &&
+        <Text style={styles.errorText}>{a11yError}</Text>
       }
 
       {/* Hiển thị màn hình đăng nhập */}
