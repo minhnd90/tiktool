@@ -3,6 +3,7 @@ import { text } from '@constants';
 import { useA11yService, useOverlayPermission } from '@hooks';
 import React, { useState } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { PaperProvider } from 'react-native-paper';
 
 function App(): React.JSX.Element {
   /* State quản lý trạng thái đăng nhập
@@ -21,35 +22,37 @@ function App(): React.JSX.Element {
   const shouldShowLogin = isOverlayGranted && isA11yEnabled && !isLoggedIn;
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      {/* Nút yêu cầu quyền hiển thị trên ứng dụng khác */}
-      {!isOverlayGranted &&
-        <TikTokButton id="request-overlay" text={text.RequestOverlay} action={requestOverlayPermission} />
-      }
+    <PaperProvider>
+      <View style={styles.container}>
+        <StatusBar hidden={true} />
+        {/* Nút yêu cầu quyền hiển thị trên ứng dụng khác */}
+        {!isOverlayGranted &&
+          <TikTokButton id="request-overlay" text={text.RequestOverlay} action={requestOverlayPermission} />
+        }
 
-      {/* Nút mở cài đặt Hỗ trợ tiếp cận */}
-      {!isA11yEnabled &&
-        <TikTokButton id="open-a11y" text={text.OpenA11y} action={openA11ySettings} />}
+        {/* Nút mở cài đặt Hỗ trợ tiếp cận */}
+        {!isA11yEnabled &&
+          <TikTokButton id="open-a11y" text={text.OpenA11y} action={openA11ySettings} />}
 
-      {/* Hiển thị lỗi nếu có */}
-      {overlayError &&
-        <Text style={styles.errorText}>{overlayError}</Text>
-      }
-      {a11yError &&
-        <Text style={styles.errorText}>{a11yError}</Text>
-      }
+        {/* Hiển thị lỗi nếu có */}
+        {overlayError &&
+          <Text style={styles.errorText}>{overlayError}</Text>
+        }
+        {a11yError &&
+          <Text style={styles.errorText}>{a11yError}</Text>
+        }
 
-      {/* Hiển thị màn hình đăng nhập */}
-      {shouldShowLogin &&
-        <LoginScreen onLogin={handleLogin} />
-      }
+        {/* Hiển thị màn hình đăng nhập */}
+        {shouldShowLogin &&
+          <LoginScreen onLogin={handleLogin} />
+        }
 
-      {/* Hiển thị danh sách các phiên bản của TikTok, người dùng chỉ được chọn một phiên bản */}
-      {isLoggedIn &&
-        (<SelectTiktokVariant />)
-      }
-    </View>
+        {/* Hiển thị danh sách các phiên bản của TikTok, người dùng chỉ được chọn một phiên bản */}
+        {isLoggedIn &&
+          (<SelectTiktokVariant />)
+        }
+      </View>
+    </PaperProvider>
   );
 }
 
