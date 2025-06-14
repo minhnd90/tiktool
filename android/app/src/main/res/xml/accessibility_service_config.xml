@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
     android:accessibilityEventTypes="typeAllMask"
-    android:packageNames="com.zhiliaoapp.musically"
+    android:packageNames="com.zhiliaoapp.musically,com.zhiliaoapp.musically.go,com.ss.android.ugc.trill,com.ss.android.ugc.tiktok.lite,com.tiktool"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:notificationTimeout="100"
     android:canRetrieveWindowContent="true"
     android:description="@string/accessibility_service_description"
-    android:accessibilityFlags="flagDefault|flagReportViewIds|flagRequestFilterKeyEvents"
+    android:accessibilityFlags="flagDefault|flagReportViewIds|flagRequestFilterKeyEvents|flagIncludeNotImportantViews"
     android:canPerformGestures="true"
     android:canRequestTouchExplorationMode="true"
     android:canRequestEnhancedWebAccessibility="true"
     android:canRequestFilterKeyEvents="true"
     android:canRequestFingerprintGestures="false"
     android:canControlMagnification="false"
-    android:settingsActivity=""
-/>
+    android:settingsActivity="com.tiktool.MainActivity" />
