@@ -1,10 +1,10 @@
-import {text} from '@constants';
-import {overlayPermission} from '@utils';
-import {useCallback, useEffect, useState} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import { text } from '@constants';
+import { overlay } from '@utils';
+import { useCallback, useEffect, useState } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
 
 // Lấy các hàm kiểm tra và xin quyền overlay từ module utils
-const {checkOverlayPermission, requestOverlayPermission} = overlayPermission;
+const { checkOverlayPermission, requestOverlayPermission } = overlay;
 
 /**
  * Hook kiểm tra và xin quyền hiển thị trên ứng dụng khác (Overlay Permission) cho Android.
@@ -40,5 +40,5 @@ export default function useOverlayPermission(): any {
     return () => subscription.remove();
   }, [requestPermission]);
 
-  return {isOverlayGranted, requestOverlayPermission, overlayError};
+  return { isOverlayGranted, requestOverlayPermission, overlayError };
 }

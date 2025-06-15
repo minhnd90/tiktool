@@ -1,6 +1,11 @@
 import { NativeModules } from 'react-native';
 
-const { AccessibilityServiceUtils } = NativeModules;
+export interface AccessibilityServiceUtilsType {
+  isServiceEnabled(): Promise<boolean>;
+  openAccessibilitySettings(): Promise<boolean>;
+}
+
+const { AccessibilityServiceUtils } = NativeModules as { AccessibilityServiceUtils: AccessibilityServiceUtilsType };
 
 export const checkA11yService = async (): Promise<boolean> => {
   try {

@@ -11,7 +11,7 @@ import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
-import com.tiktool.overlaypermission.OverlayPermissionPackage
+import com.tiktool.overlay.OverlayPackage
 
 class MainApplication : Application(), ReactApplication {
 
@@ -24,7 +24,7 @@ class MainApplication : Application(), ReactApplication {
               add(AccessibilityServiceUtilsPackage()) // Đăng ký package kiểm tra Accessibility Service
               add(AppInstalledUtilsPackage()) // Đăng ký package kiểm tra app đã cài đặt
               add(OpenAppPackage()) // Đăng ký package mở App native
-              add(OverlayPermissionPackage()) // Đăng ký package xin quyền vẽ trên ứng dụng khác
+              add(OverlayPackage()) // Đăng ký package overlay nổi TikTool
             }
 
         override fun getJSMainModuleName(): String = "index"

@@ -1,10 +1,19 @@
 import { NativeModules } from 'react-native';
 
-const { AppInstalledUtils, OpenAppUtils } = NativeModules;
+export interface AppInstalledUtilsType {
+  isAppInstalled(pkg: string): Promise<boolean>;
+}
+export interface OpenAppUtilsType {
+  openAppByPackage(pkg: string): Promise<boolean>;
+}
+
+const { AppInstalledUtils, OpenAppUtils } = NativeModules as {
+  AppInstalledUtils: AppInstalledUtilsType;
+  OpenAppUtils: OpenAppUtilsType;
+};
 
 /**
  * Kiểm tra xem app với package name đã được cài trên máy chưa.
- * (React Native không hỗ trợ trực tiếp, cần native module, nhưng có thể thử Linking.canOpenURL)
  */
 export async function isAppInstalled(pkg: string): Promise<boolean> {
   try {

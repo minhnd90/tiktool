@@ -1,12 +1,12 @@
+import { TikTokButton } from '@components';
 import { text, tiktokVariants } from '@constants';
-import { tiktokApps } from '@utils';
+import { overlay, tiktokApps } from '@utils';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
-import TikTokButton from './TikTokButton';
-
 const { isAppInstalled, openAppByPackage } = tiktokApps;
+const { requestOverlayPermission, showOverlay } = overlay;
 
 interface TikTokApp {
   name: string;
@@ -71,7 +71,11 @@ const SelectTiktokVersionView: React.FC = () => {
             <TikTokButton
               id="start-task-btn"
               text={text.StartTask}
-              action={() => selectedPackage && openAppByPackage(selectedPackage)}
+              action={async () => {
+                await requestOverlayPermission();
+                showOverlay();
+                selectedPackage && openAppByPackage(selectedPackage);
+              }}
               disabled={!selectedPackage}
               style={styles.buttonMargin}
             />
