@@ -25,7 +25,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:contentDescription="Đóng overlay"
+        android:contentDescription="@string/overlay_close_description"
         android:background="@android:color/transparent"
         android:padding="4dp" />
 </LinearLayout>

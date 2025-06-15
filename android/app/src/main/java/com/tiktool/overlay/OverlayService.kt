@@ -16,12 +16,17 @@ import com.tiktool.R
 class OverlayService : Service() {
     private var windowManager: WindowManager? = null
     private var overlayView: View? = null
+    private var screenWidth: Int = 0
+    private var screenHeight: Int = 0
 
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onCreate() {
         super.onCreate()
         windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
+        val displayMetrics = resources.displayMetrics
+        screenWidth = displayMetrics.widthPixels
+        screenHeight = displayMetrics.heightPixels
         addOverlay()
     }
 
@@ -29,6 +34,7 @@ class OverlayService : Service() {
         if (overlayView != null) return
         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
         overlayView = inflater.inflate(R.layout.overlay_layout, null)
+        overlayView!!.alpha = 0.5f // Độ trong suốt 50%
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -41,7 +47,6 @@ class OverlayService : Service() {
         params.x = 0
         params.y = 200
 
-        // Drag
         val overlayRoot = overlayView!!.findViewById<LinearLayout>(R.id.overlay_root)
         overlayRoot.setOnTouchListener(object : View.OnTouchListener {
             private var initialX = 0
@@ -58,8 +63,24 @@ class OverlayService : Service() {
                         return true
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        params.x = initialX + (event.rawX - initialTouchX).toInt()
-                        params.y = initialY + (event.rawY - initialTouchY).toInt()
+                        val dx = (event.rawX - initialTouchX).toInt()
+                        val dy = (event.rawY - initialTouchY).toInt()
+                        var newX = initialX + dx
+                        var newY = initialY + dy
+                        // Giới hạn trong màn hình (theo chiều dọc)
+                        val overlayHeight = overlayView?.height ?: 0
+                        if (newY < 0) newY = 0
+                        if (newY > screenHeight - overlayHeight) newY = screenHeight - overlayHeight
+                        // Cho phép kéo ngang tự do, sẽ snap khi thả tay
+                        params.x = newX
+                        params.y = newY
+                        windowManager?.updateViewLayout(overlayView, params)
+                        return true
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        // Snap về cạnh trái hoặc phải
+                        val overlayWidth = overlayView?.width ?: 0
+                        params.x = if ((params.x + overlayWidth / 2) < screenWidth / 2) 0 else screenWidth - overlayWidth
                         windowManager?.updateViewLayout(overlayView, params)
                         return true
                     }
@@ -68,7 +89,6 @@ class OverlayService : Service() {
             }
         })
 
-        // Close button
         val closeBtn = overlayView!!.findViewById<ImageView>(R.id.overlay_close)
         closeBtn.setOnClickListener { stopSelf() }
 

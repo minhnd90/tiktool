@@ -1,10 +1,10 @@
-import {text} from '@constants';
-import {a11yService} from '@utils';
-import {useCallback, useEffect, useState} from 'react';
-import {AppState, AppStateStatus} from 'react-native';
+import { text } from '@constants';
+import { a11yService } from '@utils';
+import { useCallback, useEffect, useState } from 'react';
+import { AppState, AppStateStatus } from 'react-native';
 
 // Lấy các hàm kiểm tra và mở cài đặt A11y Service từ module utils
-const {checkA11yService, openA11ySettings} = a11yService;
+const { checkA11yService, openA11ySettings } = a11yService;
 
 /**
  * Hook kiểm tra và mở cài đặt A11y Service cho TikTool (Android).
@@ -40,5 +40,5 @@ export default function useA11yService() {
     return () => subscription.remove();
   }, [checkService]);
 
-  return {isA11yEnabled, openA11ySettings, a11yError};
+  return { isA11yEnabled, openA11ySettings, a11yError };
 }

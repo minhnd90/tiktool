@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TikTool</string>
     <string name="accessibility_service_description">Dịch vụ tự động TikTool cho TikTok.</string>
+    <string name="overlay_close_description">Đóng</string>
 </resources>
