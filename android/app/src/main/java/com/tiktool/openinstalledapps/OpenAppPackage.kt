@@ -6,11 +6,11 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.uimanager.ViewManager
 
 /**
- * Đăng ký module native OpenTiktokModule cho React Native.
+ * Đăng ký module native OpenAppModule cho React Native.
  */
-class OpenTiktokPackage : ReactPackage {
+class OpenAppPackage : ReactPackage {
     override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
-        return listOf(OpenTiktokModule(reactContext))
+        return listOf(OpenAppModule(reactContext))
     }
     override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> = emptyList()
 }

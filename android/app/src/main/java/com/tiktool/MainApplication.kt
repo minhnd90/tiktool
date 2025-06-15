@@ -23,7 +23,7 @@ class MainApplication : Application(), ReactApplication {
               // add(MyReactNativePackage())
               add(AccessibilityServiceUtilsPackage()) // Đăng ký package kiểm tra Accessibility Service
               add(AppInstalledUtilsPackage()) // Đăng ký package kiểm tra app đã cài đặt
-              add(OpenTiktokPackage()) // Đăng ký package mở TikTok native
+              add(OpenAppPackage()) // Đăng ký package mở App native
               add(OverlayPermissionPackage()) // Đăng ký package xin quyền vẽ trên ứng dụng khác
             }
 

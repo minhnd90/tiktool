@@ -1,10 +1,12 @@
-import { TikTokButton } from '@components';
 import { text, tiktokVariants } from '@constants';
 import { tiktokApps } from '@utils';
 import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 
-const { isAppInstalled, openTiktokByPackage } = tiktokApps;
+import TikTokButton from './TikTokButton';
+
+const { isAppInstalled, openAppByPackage } = tiktokApps;
 
 interface TikTokApp {
   name: string;
@@ -19,6 +21,7 @@ const SelectTiktokVersionView: React.FC = () => {
   const [installedApps, setInstalledApps] = useState<TikTokApp[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
 
   const checkInstalledApps = useCallback(async () => {
     try {
@@ -52,15 +55,27 @@ const SelectTiktokVersionView: React.FC = () => {
         ) : (
           <Text style={styles.errorText}>{text.NoTikTokInstalled}</Text>
         ) : (
-          installedApps.map(app => (
+          <>
+            <RadioButton.Group
+              onValueChange={value => setSelectedPackage(value)}
+              value={selectedPackage ?? ''}
+            >
+              {installedApps.map(app => (
+                <RadioButton.Item
+                  key={app.package}
+                  label={app.name}
+                  value={app.package}
+                />
+              ))}
+            </RadioButton.Group>
             <TikTokButton
-              key={app.package}
-              id={`start-task-${app.package}`}
-              text={`${text.StartTask} ${app.name}`}
-              action={() => openTiktokByPackage(app.package)}
+              id="start-task-btn"
+              text={text.StartTask}
+              action={() => selectedPackage && openAppByPackage(selectedPackage)}
+              disabled={!selectedPackage}
               style={styles.buttonMargin}
             />
-          ))
+          </>
         )}
     </View>
   );
@@ -73,7 +88,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonMargin: {
-    marginBottom: 16,
+    marginBlock: 16,
   },
   errorText: {
     color: '#d32f2f',

@@ -1,16 +1,14 @@
 import { NativeModules } from 'react-native';
 
+const { AppInstalledUtils, OpenAppUtils } = NativeModules;
+
 /**
  * Kiểm tra xem app với package name đã được cài trên máy chưa.
  * (React Native không hỗ trợ trực tiếp, cần native module, nhưng có thể thử Linking.canOpenURL)
  */
 export async function isAppInstalled(pkg: string): Promise<boolean> {
   try {
-    if (NativeModules.AppInstalledUtils && NativeModules.AppInstalledUtils.isAppInstalled) {
-      return await NativeModules.AppInstalledUtils.isAppInstalled(pkg);
-    }
-    // fallback: luôn trả về false nếu không có native module
-    return false;
+    return await AppInstalledUtils.isAppInstalled(pkg);
   } catch {
     return false;
   }
@@ -19,13 +17,9 @@ export async function isAppInstalled(pkg: string): Promise<boolean> {
 /**
  * Mở app TikTok theo package name.
  */
-export async function openTiktokByPackage(pkg: string): Promise<boolean> {
+export async function openAppByPackage(pkg: string): Promise<boolean> {
   try {
-    if (NativeModules.OpenTiktokUtils && NativeModules.OpenTiktokUtils.openTiktokByPackage) {
-      return await NativeModules.OpenTiktokUtils.openTiktokByPackage(pkg);
-    }
-    // fallback: luôn trả về false nếu không có native module
-    return false;
+    return await OpenAppUtils.openAppByPackage(pkg);
   } catch {
     return false;
   }

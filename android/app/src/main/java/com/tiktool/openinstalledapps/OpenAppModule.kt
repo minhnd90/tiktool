@@ -8,16 +8,16 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 
 /**
- * Module native để mở app TikTok theo package name.
+ * Module native để mở app App theo package name.
  */
-class OpenTiktokModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
-    override fun getName(): String = "OpenTiktokUtils"
+class OpenAppModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
+    override fun getName(): String = "OpenAppUtils"
 
     /**
-     * Mở app TikTok theo package name.
+     * Mở app App theo package name.
      */
     @ReactMethod
-    fun openTiktokByPackage(packageName: String, promise: Promise) {
+    fun openAppByPackage(packageName: String, promise: Promise) {
         try {
             val context = reactApplicationContext
             val pm = context.packageManager
@@ -30,7 +30,7 @@ class OpenTiktokModule(reactContext: ReactApplicationContext) : ReactContextBase
                 promise.resolve(false)
             }
         } catch (e: Exception) {
-            promise.reject("ERR_OPEN_TIKTOK", e)
+            promise.reject("ERR_OPEN_App", e)
         }
     }
 }

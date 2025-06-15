@@ -6,16 +6,27 @@ const TikTokButton = ({
   id,
   text,
   style,
+  disabled,
   action,
 }: {
   id?: string;
   text: string;
   style?: object;
   action: () => void;
+  disabled?: boolean;
 }) => {
 
   return (
-    <TouchableRipple id={id} style={[styles.tiktokButton, style]} onPress={action}>
+    <TouchableRipple
+      id={id}
+      style={[
+        styles.tiktokButton,
+        style,
+        disabled && styles.tiktokButtonDisabled,
+      ]}
+      onPress={action}
+      disabled={disabled}
+    >
       <Text style={styles.tiktokText}>{text}</Text>
     </TouchableRipple>
   );
@@ -23,27 +34,27 @@ const TikTokButton = ({
 
 const styles = StyleSheet.create({
   tiktokButton: {
-    backgroundColor: '#FF0050',
+    backgroundColor: '#ff0050',
     paddingHorizontal: 40,
     paddingVertical: 18,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 5,
     marginBottom: 20,
-    shadowColor: '#FF0050',
+    shadowColor: '#ff0050',
     shadowOffset: {
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
   },
   tiktokText: {
-    color: '#FFFFFF',
+    color: '#ffffff',
     fontSize: 18,
     fontWeight: 'bold',
     letterSpacing: 0.5,
+  },
+  tiktokButtonDisabled: {
+    backgroundColor: '#ff005080',
   },
 });
 
